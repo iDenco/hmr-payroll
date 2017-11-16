@@ -27,10 +27,11 @@ def add_user():
         return jsonify(response_object), 400
     username = post_data.get('username')
     email = post_data.get('email')
+    password = post_data.get('password')
     try:
         user = User.query.filter_by(email=email).first()
         if not user:
-            db.session.add(User(username=username, email=email))
+            db.session.add(User(username=username, email=email, password=password))
             db.session.commit()
             response_object = {
                 'status': 'success',

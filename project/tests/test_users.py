@@ -6,8 +6,8 @@ from project import db
 from project.api.models import User
 
 
-def add_user(username, email, created_at=datetime.datetime.now()):
-    user = User(username=username, email=email, created_at=created_at)
+def add_user(username, email, password, created_at=datetime.datetime.now()):
+    user = User(username=username, email=email, password=password, created_at=created_at)
     db.session.add(user)
     db.session.commit()
     return user
@@ -41,7 +41,7 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 '/api/users',
-                data=json.dumps(dict(email='gg@mail.com')),
+                data=json.dumps(dict(email='gg@mail.com', password='test')),
                 content_type='application/json'
             )
             data = json.loads(response.data.decode())
@@ -56,7 +56,8 @@ class TestUserService(BaseTestCase):
                 '/api/users',
                 data=json.dumps(dict(
                     username='micheal',
-                    email='gg@mail.com'
+                    email='gg@mail.com',
+                    password='test'
                 )),
                 content_type='application/json'
             )
@@ -64,7 +65,8 @@ class TestUserService(BaseTestCase):
                 '/api/users',
                 data=json.dumps(dict(
                     username='micheal',
-                    email='gg@mail.com'
+                    email='gg@mail.com',
+                    password='test'
                 )),
                 content_type='application/json'
             )
@@ -75,7 +77,7 @@ class TestUserService(BaseTestCase):
 
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
-        user = add_user('micheal', 'gg@mail.com')
+        user = add_user('micheal', 'gg@mail.com', 'test')
         with self.client:
             response = self.client.get(f'/api/users/{user.id}')
             data = json.loads(response.data.decode())
@@ -106,8 +108,8 @@ class TestUserService(BaseTestCase):
     def test_all_users(self):
         """Ensure get all users behaves correctly"""
         created = datetime.datetime.utcnow() + datetime.timedelta(-30)
-        add_user('micheal', 'gg@mail.com', created)
-        add_user('fletcher', 'mail@gg.com')
+        add_user('micheal', 'gg@mail.com', 'test', created)
+        add_user('fletcher', 'mail@gg.com', 'test')
         with self.client:
             response = self.client.get('/api/users')
             data = json.loads(response.data.decode())
