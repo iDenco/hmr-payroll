@@ -1,17 +1,11 @@
-from flask import Blueprint, jsonify, request, render_template
+from flask import Blueprint, jsonify, request
 from sqlalchemy import exc
 
 from project.api.models import User
 from project import db
 
 
-hrpayroll_blueprint = Blueprint('hrpayroll', __name__, template_folder='./templates')
-
-
-@hrpayroll_blueprint.route('/api', methods=['GET'])
-def index():
-    users = User.query.all()
-    return render_template('index.html', users=users)
+hrpayroll_blueprint = Blueprint('payroll', __name__, template_folder='./templates')
 
 
 @hrpayroll_blueprint.route('/api/ping', methods=['GET'])
@@ -86,7 +80,7 @@ def get_single_user(user_id):
 @hrpayroll_blueprint.route('/api/users', methods=['GET'])
 def get_all_users():
     """Get all users"""
-    users = User.query.all()
+    users = User.query.order_by(User.created_at.desc()).all()
     users_list = []
     for user in users:
         user_object = {
