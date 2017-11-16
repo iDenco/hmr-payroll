@@ -49,7 +49,7 @@ class TestUserService(BaseTestCase):
             self.assertIn('Invalid payload', data['message'])
             self.assertIn('fail', data['status'])
 
-    def test_add_user_duplicate_user(self):
+    def test_add_user_duplicate_email(self):
         """Ensure error is thrown if the email already exists."""
         with self.client:
             self.client.post(
