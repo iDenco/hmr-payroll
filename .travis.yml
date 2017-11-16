@@ -12,6 +12,7 @@ install:
 before_script:
   - export APP_SETTING="project.config.TestingConfig"
   - export DATABASE_TEST_URL=postgresql://postgres:@localhost/payroll_test
+  - export SECRET_KEY=changeme
   - psql -c 'create database payroll_test;' -U postgres
   - python manage.py recreate_db
 
