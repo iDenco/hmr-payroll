@@ -1,9 +1,9 @@
-import json
 import datetime
+import json
 
-from project.tests.base import BaseTestCase
 from project import db
-from project.api.models import User
+from project.models.User import User
+from project.tests.base import BaseTestCase
 
 
 def add_user(username, email, password, created_at=datetime.datetime.now()):

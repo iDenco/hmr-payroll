@@ -1,14 +1,13 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc
 
-from project.api.models import User
 from project import db
+from project.models.User import User
+
+users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
 
-payroll_blueprint = Blueprint('payroll', __name__, template_folder='./templates')
-
-
-@payroll_blueprint.route('/api/ping', methods=['GET'])
+@users_blueprint.route('/api/ping', methods=['GET'])
 def ping_pong():
     return jsonify({
         'status': 'success',
@@ -16,7 +15,7 @@ def ping_pong():
     })
 
 
-@payroll_blueprint.route('/api/users', methods=['POST'])
+@users_blueprint.route('/api/users', methods=['POST'])
 def add_user():
     post_data = request.get_json()
     if not post_data:
@@ -53,7 +52,7 @@ def add_user():
         return jsonify(response_object), 400
 
 
-@payroll_blueprint.route('/api/users/<user_id>', methods=['GET'])
+@users_blueprint.route('/api/users/<user_id>', methods=['GET'])
 def get_single_user(user_id):
     """Get single user details"""
     response_object = {
@@ -78,7 +77,7 @@ def get_single_user(user_id):
         return jsonify(response_object), 404
 
 
-@payroll_blueprint.route('/api/users', methods=['GET'])
+@users_blueprint.route('/api/users', methods=['GET'])
 def get_all_users():
     """Get all users"""
     users = User.query.order_by(User.created_at.desc()).all()

@@ -12,6 +12,7 @@ migrate = Migrate()
 # instantiate flask bcrypt
 bcrypt = Bcrypt()
 
+
 def create_app():
 
     # instantiate the app
@@ -30,7 +31,7 @@ def create_app():
     migrate.init_app(app, db)
 
     # register blueprints
-    from project.api.views import payroll_blueprint
-    app.register_blueprint(payroll_blueprint)
+    from project.api.users import users_blueprint
+    app.register_blueprint(users_blueprint)
 
     return app

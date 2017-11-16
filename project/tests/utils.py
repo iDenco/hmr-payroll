@@ -1,8 +1,7 @@
 import datetime
 
-
 from project import db
-from project.api.models import User
+from project.models.User import User
 
 
 def add_user(username, email, password, created_at=datetime.datetime.utcnow()):
