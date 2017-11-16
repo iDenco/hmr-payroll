@@ -8,13 +8,13 @@ from project import db
 hrpayroll_blueprint = Blueprint('hrpayroll', __name__, template_folder='./templates')
 
 
-@hrpayroll_blueprint.route('/', methods=['GET'])
+@hrpayroll_blueprint.route('/api', methods=['GET'])
 def index():
     users = User.query.all()
     return render_template('index.html', users=users)
 
 
-@hrpayroll_blueprint.route('/ping', methods=['GET'])
+@hrpayroll_blueprint.route('/api/ping', methods=['GET'])
 def ping_pong():
     return jsonify({
         'status': 'success',
@@ -22,7 +22,7 @@ def ping_pong():
     })
 
 
-@hrpayroll_blueprint.route('/users', methods=['POST'])
+@hrpayroll_blueprint.route('/api/users', methods=['POST'])
 def add_user():
     post_data = request.get_json()
     if not post_data:
@@ -58,7 +58,7 @@ def add_user():
         return jsonify(response_object), 400
 
 
-@hrpayroll_blueprint.route('/users/<user_id>', methods=['GET'])
+@hrpayroll_blueprint.route('/api/users/<user_id>', methods=['GET'])
 def get_single_user(user_id):
     """Get single user details"""
     response_object = {
@@ -83,7 +83,7 @@ def get_single_user(user_id):
         return jsonify(response_object), 404
 
 
-@hrpayroll_blueprint.route('/users', methods=['GET'])
+@hrpayroll_blueprint.route('/api/users', methods=['GET'])
 def get_all_users():
     """Get all users"""
     users = User.query.all()
